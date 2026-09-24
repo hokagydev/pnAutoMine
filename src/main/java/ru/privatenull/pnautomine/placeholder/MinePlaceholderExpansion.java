@@ -108,10 +108,16 @@ public final class MinePlaceholderExpansion extends PlaceholderExpansion {
                 yield type != null ? ColorUtil.colorize(type.getDisplayName()) : mine.getTypeName();
             }
             case "next_type" -> {
+                if (plugin.getConfig().getBoolean("random-mine-type.enabled", true)) {
+                    yield "random";
+                }
                 MineType type = plugin.getMineManager().getNextType(mine);
                 yield type == null ? "" : type.getId();
             }
             case "next_type_display" -> {
+                if (plugin.getConfig().getBoolean("random-mine-type.enabled", true)) {
+                    yield ColorUtil.colorize("&fСлучайный тип");
+                }
                 MineType type = plugin.getMineManager().getNextType(mine);
                 yield type == null ? "" : ColorUtil.colorize(type.getDisplayName());
             }

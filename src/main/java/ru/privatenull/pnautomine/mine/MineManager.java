@@ -303,6 +303,18 @@ public final class MineManager {
             return null;
         }
 
+        // Weighted random mode is independent on every reset. The same type may
+        // be selected several times in a row; probabilities are not a progression.
+        if (plugin.getConfig().getBoolean("random-mine-type.enabled", true)) {
+            MineType randomType = chooseRandomType();
+            if (randomType != null) {
+                mine.setTypeName(randomType.getId());
+                mine.setDisplayName(randomType.getDisplayName());
+                saveMine(mine);
+                return randomType;
+            }
+        }
+
         MineType nextType = getNextType(mine);
         if (nextType == null) return currentType;
 
@@ -310,6 +322,46 @@ public final class MineManager {
         mine.setDisplayName(nextType.getDisplayName());
         saveMine(mine);
         return nextType;
+    }
+
+    /**
+     * Selects a mine type by configured weight. Weights do not have to add up
+     * to 100: they are normalized automatically. Example: 70/20/10 means
+     * approximately 70%, 20%, 10%.
+     */
+    private MineType chooseRandomType() {
+        ConfigurationSection section = plugin.getConfig().getConfigurationSection("random-mine-type.types");
+        if (section == null) {
+            return null;
+        }
+
+        List<MineType> candidates = new ArrayList<>();
+        List<Double> weights = new ArrayList<>();
+        double total = 0.0;
+
+        for (String id : section.getKeys(false)) {
+            MineType type = plugin.getMineTypes().getType(id);
+            double weight = section.getDouble(id, 0.0);
+            if (type != null && weight > 0.0) {
+                candidates.add(type);
+                weights.add(weight);
+                total += weight;
+            }
+        }
+
+        if (candidates.isEmpty() || total <= 0.0) {
+            return null;
+        }
+
+        double roll = java.util.concurrent.ThreadLocalRandom.current().nextDouble(total);
+        double cumulative = 0.0;
+        for (int i = 0; i < candidates.size(); i++) {
+            cumulative += weights.get(i);
+            if (roll < cumulative) {
+                return candidates.get(i);
+            }
+        }
+        return candidates.get(candidates.size() - 1);
     }
 
     /** Returns the type that will be selected on the next reset without changing the mine. */

@@ -19,6 +19,34 @@ defaults:
   # Телепортировать игроков из шахты перед сбросом
   teleport-on-reset: true
 
+# Полностью случайный тип автошахты при КАЖДОМ сбросе.
+# Тип может выпасть несколько раз подряд — это настоящий независимый weighted random.
+# Сумма процентов может быть любой: плагин автоматически нормализует веса.
+random-mine-type:
+  enabled: true
+  types:
+    normal: 70
+    rare: 15
+    epic: 8
+    legendary: 5
+    mythic: 2
+
+# Встроенный sidebar-scoreboard. Не требует TAB или PlaceholderAPI.
+# Если TAB настроен на свой scoreboard, выберите provider: tab и используйте
+# tab-scoreboard-example.yml.
+scoreboard:
+  enabled: true
+  provider: internal
+  title: "&b&lАВТОШАХТА"
+  lines:
+    - "&7Шахта: &f{mine_name}"
+    - "&7Тип: {mine_type_display}"
+    - "&7Осталось: &f{blocks_remaining}/{blocks_total}"
+    - "&7Прогресс: &a{blocks_percentage}%"
+    - "&7Сброс: &e{reset_time}"
+    - "&8"
+    - "&7След. тип: &f{next_type_display}"
+
 # Типы шахт задают состав блоков и отображаемые названия
 # У каждого типа есть уникальный ID, который используется в командах
 mine-types:

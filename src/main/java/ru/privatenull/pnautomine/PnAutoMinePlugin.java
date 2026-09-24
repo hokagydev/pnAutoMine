@@ -10,6 +10,7 @@ import ru.privatenull.pnautomine.hologram.HologramService;
 import ru.privatenull.pnautomine.listeners.BlockBreakListener;
 import ru.privatenull.pnautomine.mine.MineManager;
 import ru.privatenull.pnautomine.placeholder.MinePlaceholderExpansion;
+import ru.privatenull.pnautomine.scoreboard.MineScoreboardService;
 import ru.privatenull.pnlibrary.banner.PluginBanner;
 import ru.privatenull.pnlibrary.lifecycle.PluginRuntime;
 import ru.privatenull.pnlibrary.update.PluginUpdateService;
@@ -29,6 +30,7 @@ public final class PnAutoMinePlugin extends JavaPlugin {
     private MineManager mineManager;
     private HologramService holograms;
     private PluginRuntime runtime;
+    private MineScoreboardService scoreboard;
 
     @Override
     public void onEnable() {
@@ -47,6 +49,12 @@ public final class PnAutoMinePlugin extends JavaPlugin {
 
         mineManager = new MineManager(this);
         mineManager.loadMines();
+
+        scoreboard = new MineScoreboardService(this);
+        getServer().getScheduler().runTaskTimer(this, () -> {
+            if (scoreboard != null) scoreboard.updateAll();
+        }, 1L, 20L);
+
         runtime = PluginRuntime.start(createPluginIdentity());
 
         var cmd = getCommand("pnautomine");
@@ -73,6 +81,10 @@ public final class PnAutoMinePlugin extends JavaPlugin {
         }
         if (holograms != null) {
             holograms.shutdown();
+        }
+        if (scoreboard != null) {
+            scoreboard.shutdown();
+            scoreboard = null;
         }
         if (runtime != null) {
             runtime.close();
