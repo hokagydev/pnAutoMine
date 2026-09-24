@@ -32,5 +32,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pnAutoMine
-          path: build/libs/*.jar
+          path: build/libs/pnAutoMine-*.jar
           if-no-files-found: error
