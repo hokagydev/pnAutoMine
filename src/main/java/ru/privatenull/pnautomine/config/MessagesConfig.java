@@ -3,7 +3,7 @@ package ru.privatenull.pnautomine.config;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.privatenull.pnlibrary.text.ColorUtil;
+import ru.privatenull.pnautomine.util.ColorUtil;
 
 import java.io.File;
 import java.io.IOException;

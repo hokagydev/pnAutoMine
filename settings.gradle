@@ -1,3 +1,1 @@
 rootProject.name = 'pnAutoMine'
-
-includeBuild('../../Plugins/pnLibrary')

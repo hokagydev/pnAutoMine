@@ -11,7 +11,7 @@ import ru.privatenull.pnautomine.mine.MineManager;
 import ru.privatenull.pnautomine.mine.MineRegion;
 import ru.privatenull.pnautomine.mine.MineType;
 import ru.privatenull.pnautomine.worldedit.WorldEditAdapter;
-import ru.privatenull.pnlibrary.text.ColorUtil;
+import ru.privatenull.pnautomine.util.ColorUtil;
 
 /**
  * Main command handler for /pnautomine (aliases: /mine, /mines, /am).

@@ -5,7 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import ru.privatenull.pnautomine.PnAutoMinePlugin;
 import ru.privatenull.pnautomine.mine.Mine;
 import ru.privatenull.pnautomine.mine.MineType;
-import ru.privatenull.pnlibrary.text.ColorUtil;
+import ru.privatenull.pnautomine.util.ColorUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;

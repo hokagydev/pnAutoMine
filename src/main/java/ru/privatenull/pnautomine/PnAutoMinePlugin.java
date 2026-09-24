@@ -11,12 +11,8 @@ import ru.privatenull.pnautomine.listeners.BlockBreakListener;
 import ru.privatenull.pnautomine.mine.MineManager;
 import ru.privatenull.pnautomine.placeholder.MinePlaceholderExpansion;
 import ru.privatenull.pnautomine.scoreboard.MineScoreboardService;
-import ru.privatenull.pnlibrary.banner.PluginBanner;
-import ru.privatenull.pnlibrary.lifecycle.PluginRuntime;
-import ru.privatenull.pnlibrary.update.PluginUpdateService;
 
 import java.io.File;
-import java.time.Duration;
 
 public final class PnAutoMinePlugin extends JavaPlugin {
 
@@ -29,7 +25,6 @@ public final class PnAutoMinePlugin extends JavaPlugin {
     private MiningStatsConfig miningStats;
     private MineManager mineManager;
     private HologramService holograms;
-    private PluginRuntime runtime;
     private MineScoreboardService scoreboard;
 
     @Override
@@ -54,8 +49,6 @@ public final class PnAutoMinePlugin extends JavaPlugin {
         getServer().getScheduler().runTaskTimer(this, () -> {
             if (scoreboard != null) scoreboard.updateAll();
         }, 1L, 20L);
-
-        runtime = PluginRuntime.start(createPluginIdentity());
 
         var cmd = getCommand("pnautomine");
         if (cmd == null) {
@@ -86,10 +79,6 @@ public final class PnAutoMinePlugin extends JavaPlugin {
             scoreboard.shutdown();
             scoreboard = null;
         }
-        if (runtime != null) {
-            runtime.close();
-            runtime = null;
-        }
     }
 
     public void reloadPlugin() {
@@ -110,9 +99,6 @@ public final class PnAutoMinePlugin extends JavaPlugin {
         holograms = new HologramService(this);
         mineManager.syncHolograms();
 
-        if (runtime != null) {
-            runtime.reload();
-        }
     }
 
     public MessagesConfig getMessages() {
@@ -135,19 +121,9 @@ public final class PnAutoMinePlugin extends JavaPlugin {
         return holograms;
     }
 
-    public PluginUpdateService getUpdateChecker() {
-        return runtime != null && runtime.hasUpdates() ? runtime.updates() : null;
+    /** Legacy compatibility method; update service is not bundled. */
+    public Object getUpdateChecker() {
+        return null;
     }
 
-    private PluginBanner.Identity createPluginIdentity() {
-        return new PluginBanner.Identity(this, "PnFolder")
-                .github("Dy6HiLa", "pnAutoMine")
-                .bStats(32828)
-                .notifyAdministrators(true)
-                .notificationPermission(UPDATE_PERMISSION)
-                .notifyOnlineAdministrators(true)
-                .notifyAdministratorsOnJoin(true)
-                .supportUrl(SUPPORT_DISCORD)
-                .updateCheckInterval(Duration.ofHours(UPDATE_CHECK_PERIOD_HOURS));
-    }
 }

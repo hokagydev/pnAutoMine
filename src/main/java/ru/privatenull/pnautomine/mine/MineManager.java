@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import ru.privatenull.pnautomine.PnAutoMinePlugin;
-import ru.privatenull.pnlibrary.text.ColorUtil;
+import ru.privatenull.pnautomine.util.ColorUtil;
 
 import java.io.File;
 import java.io.IOException;
