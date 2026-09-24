@@ -127,3 +127,20 @@ Placeholder текущей шахты определяется по позици
 3. Запустите сервер один раз.
 4. Настройте `config.yml`.
 5. Создайте шахту через WorldEdit и команду `/pnautomine create`.
+
+
+## pnLibrary
+
+pnAutoMine uses the public pnLibrary API from Maven Central. The server must have the `pnLibrary` Bukkit/Paper runtime installed.
+
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly("io.github.pnfolder:pnlibrary-api:2.2.0-beta.2")
+}
+```
+
+The plugin keeps its author metadata in `plugin.yml`, so pnLibrary can recognize the plugin and its developer information.
